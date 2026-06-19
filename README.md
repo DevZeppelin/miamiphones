@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Miami Phones
 
-## Getting Started
+Catálogo simple de iPhone (solo texto, sin fotos) pensado para conectarse con **Airtable**.
+Hecho con Next.js 16 (App Router) + Tailwind.
 
-First, run the development server:
+## Cómo es la página
+
+- Encabezado **MIAMI PHONES** + barra: _Garantía oficial • Hasta 12 cuotas • Stock inmediato_.
+- Banner de WhatsApp ("iPhone usados — precios accesibles con garantía → Consulte ahora").
+- Buscador + toggle de vista (cuadrícula / lista).
+- Filtros por estado (Oferta / Sellado / Usado / etc.), generados automáticamente según los datos.
+- Catálogo de tarjetas: descripción, color, precio en pesos y dólares, precio en 3 y 6 cuotas,
+  y botón **Pedir por WhatsApp** que abre el chat con ese producto pre-cargado en el mensaje.
+
+## Puesta en marcha
 
 ```bash
+npm install
+cp .env.local.example .env.local   # completá tus datos
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrí http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> Mientras no cargues las credenciales de Airtable, la web muestra **productos de ejemplo**
+> para que veas el catálogo funcionando.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Conectar Airtable
 
-## Learn More
+1. Creá una base con una tabla (por defecto llamada **`Productos`**) con estas columnas:
 
-To learn more about Next.js, take a look at the following resources:
+   | Columna       | Tipo          | Ejemplo                  | Obligatoria |
+   | ------------- | ------------- | ------------------------ | ----------- |
+   | `Descripcion` | Texto         | iPhone 13 128GB          | Sí          |
+   | `Color`       | Texto         | Azul                     | No          |
+   | `PrecioARS`   | Número        | 540000                   | No          |
+   | `PrecioUSD`   | Número        | 430                      | No          |
+   | `Estado`      | Selección     | Oferta / Sellado / Usado | No          |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   Las cuotas (3 y 6) se calculan solas a partir de `PrecioARS`, no hace falta cargarlas.
+   El filtro de arriba usa los valores de `Estado` que existan en la tabla.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Generá un **Personal Access Token** en https://airtable.com/create/tokens con permiso
+   `data.records:read` sobre tu base.
 
-## Deploy on Vercel
+3. Completá `.env.local`:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```
+   NEXT_PUBLIC_WHATSAPP_NUMBER=5491122334455
+   AIRTABLE_TOKEN=patXXXXXXXXXXXXXX
+   AIRTABLE_BASE_ID=appXXXXXXXXXXXXXX
+   AIRTABLE_TABLE_NAME=Productos
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Reiniciá `npm run dev`. Los productos de Airtable reemplazan a los de ejemplo.
+   La web revalida los datos cada 60 segundos, así que los cambios aparecen al minuto.
+
+## Estructura
+
+```
+app/
+  layout.tsx        Layout raíz (metadata, fuentes)
+  page.tsx          Trae los productos (server) y arma la página
+  globals.css       Estilos base (Tailwind)
+components/
+  Header.tsx        Título + barra de beneficios
+  Banner.tsx        Banner con CTA de WhatsApp
+  Catalog.tsx       Buscador, filtros y toggle de vista (client)
+  ProductCard.tsx   Tarjeta de producto
+lib/
+  airtable.ts       Lectura desde Airtable (+ datos de ejemplo)
+  whatsapp.ts       Armado de los links de WhatsApp
+  types.ts          Tipo Product
+```
