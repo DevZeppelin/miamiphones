@@ -1,6 +1,13 @@
 import type { Product } from '@/lib/types'
 import { whatsappProductLink } from '@/lib/whatsapp'
 
+// Recargos por cuotas — fácil de cambiar acá
+const RECARGO_6_CUOTAS = 0.50   // 50% de recargo
+
+const RECARGO_6_CUOTAS = 0.50   // 50% de recargo
+
+const RECARGO_12_CUOTAS = 0.90  // 90% de recargo
+
 const arsFmt = new Intl.NumberFormat('es-AR', {
   style: 'currency',
   currency: 'ARS',
