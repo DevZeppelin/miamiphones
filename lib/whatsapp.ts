@@ -1,7 +1,7 @@
 import type { Product } from "./types";
 
 // Numero de WhatsApp (con codigo de pais, solo digitos). Ej: 5491122334455
-const WHATSAPP_NUMBER = 5493562459303;
+const WHATSAPP_NUMBER = 5493562673907;
 
 function formatArs(value: number | null): string {
   if (value == null) return "";
