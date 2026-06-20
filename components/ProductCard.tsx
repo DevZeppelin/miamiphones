@@ -1,10 +1,12 @@
 import type { Product } from "@/lib/types";
 import { whatsappProductLink } from "@/lib/whatsapp";
 
-// Recargos por cuotas — fácil de cambiar acá
-const RECARGO_3_CUOTAS = 0.35; // 35% de recargo
-const RECARGO_6_CUOTAS = 0.5; // 50% de recargo
-const RECARGO_12_CUOTAS = 0.9; // 90% de recargo
+export type CardType = "local" | "visa";
+
+const RECARGOS = {
+  local: { c3: null,  c6: 0.25, c12: null },
+  visa:  { c3: 0.35, c6: 0.50, c12: 0.90 },
+} satisfies Record<CardType, { c3: number | null; c6: number; c12: number | null }>;
 
 const arsFmt = new Intl.NumberFormat("es-AR", {
   style: "currency",
@@ -39,21 +41,24 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 export default function ProductCard({
   product,
   view,
+  cardType,
 }: {
   product: Product;
   view: "grid" | "list";
+  cardType: CardType;
 }) {
+  const r = RECARGOS[cardType];
   const cuota3 =
-    product.precioArs != null
-      ? Math.ceil((product.precioArs * (1 + RECARGO_3_CUOTAS)) / 3)
+    product.precioArs != null && r.c3 != null
+      ? Math.ceil((product.precioArs * (1 + r.c3)) / 3)
       : null;
   const cuota6 =
     product.precioArs != null
-      ? Math.ceil((product.precioArs * (1 + RECARGO_6_CUOTAS)) / 6)
+      ? Math.ceil((product.precioArs * (1 + r.c6)) / 6)
       : null;
   const cuota12 =
-    product.precioArs != null
-      ? Math.ceil((product.precioArs * (1 + RECARGO_12_CUOTAS)) / 12)
+    product.precioArs != null && r.c12 != null
+      ? Math.ceil((product.precioArs * (1 + r.c12)) / 12)
       : null;
 
   if (view === "list") {

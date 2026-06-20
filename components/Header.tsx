@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Header() {
   return (
-    <header className="border-b border-zinc-200 bg-black">
+    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-black">
       <div className="mx-auto max-w-5xl px-4 py-4 text-center">
         <Image
           src="/logo.png"
