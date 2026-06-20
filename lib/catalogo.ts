@@ -22,35 +22,11 @@ function toNumber(value: string | number | undefined): number | null {
 const SAMPLE_PRODUCTS: Product[] = [
   {
     id: "1",
-    descripcion: "iPhone 13 128GB",
+    descripcion: "Tléfoono de prueba",
     color: "Azul",
-    precioArs: 540000,
-    precioUsd: 430,
+    precioArs: 999,
+    precioUsd: 999,
     estado: "Usado",
-  },
-  {
-    id: "2",
-    descripcion: "iPhone 13 128GB",
-    color: "Blanco",
-    precioArs: 620000,
-    precioUsd: 495,
-    estado: "Sellado",
-  },
-  {
-    id: "3",
-    descripcion: "iPhone 13 Pro 256GB",
-    color: "Grafito",
-    precioArs: 790000,
-    precioUsd: 630,
-    estado: "Oferta",
-  },
-  {
-    id: "5",
-    descripcion: "iPhone 14 Plus 128GB",
-    color: "Violeta",
-    precioArs: 890000,
-    precioUsd: 710,
-    estado: "Sellado",
   },
 ];
 
