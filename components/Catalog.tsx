@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { Product } from "@/lib/types";
-import ProductCard, { type CardType } from "./ProductCard";
+import ProductCard from "./ProductCard";
 
 type View = "grid" | "list";
 const TODOS = "Todos";
@@ -11,7 +11,6 @@ export default function Catalog({ products }: { products: Product[] }) {
   const [query, setQuery] = useState("");
   const [view, setView] = useState<View>("grid");
   const [estado, setEstado] = useState<string>(TODOS);
-  const [cardType, setCardType] = useState<CardType>("local");
 
   const estados = useMemo(() => {
     const set = new Set<string>();
@@ -38,35 +37,6 @@ export default function Catalog({ products }: { products: Product[] }) {
 
   return (
     <section className="mx-auto mt-6 w-full max-w-5xl px-4 pb-16">
-      {/* Selector de tarjeta */}
-      <div className="mb-4 flex items-center gap-3">
-        <span className="text-xs text-zinc-500 shrink-0">Cuotas con:</span>
-        <div className="flex rounded-lg border border-zinc-200 bg-zinc-50 p-0.5 text-xs font-medium">
-          <button
-            onClick={() => setCardType("local")}
-            className={`rounded-md px-3 py-1.5 transition-all ${
-              cardType === "local"
-                ? "bg-white text-zinc-900 shadow-sm ring-1 ring-zinc-200"
-                : "text-zinc-500 hover:text-zinc-700"
-            }`}
-          >
-            Tarjetas locales
-          </button>
-          <button
-            onClick={() => setCardType("visa")}
-            className={`flex items-center gap-0 rounded-md px-3 py-1.5 transition-all ${
-              cardType === "visa"
-                ? "bg-white text-zinc-900 shadow-sm ring-1 ring-zinc-200"
-                : "text-zinc-500 hover:text-zinc-700"
-            }`}
-          >
-            <VisaIcon className="h-3 w-5" />
-            <MastercardIcon className="h-3.5 w-5" />
-            <span>Visa / Master</span>
-          </button>
-        </div>
-      </div>
-
       {/* Buscador + toggle de vista */}
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
@@ -158,12 +128,7 @@ export default function Catalog({ products }: { products: Product[] }) {
           }
         >
           {filtered.map((p) => (
-            <ProductCard
-              key={p.id}
-              product={p}
-              view={view}
-              cardType={cardType}
-            />
+            <ProductCard key={p.id} product={p} view={view} />
           ))}
         </div>
       )}
@@ -193,32 +158,5 @@ function ViewButton({
     >
       {children}
     </button>
-  );
-}
-
-function VisaIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 48 16" className={className} aria-hidden="true">
-      <text
-        x="0"
-        y="13"
-        fontFamily="Arial"
-        fontWeight="bold"
-        fontSize="15"
-        fill="#1A1F71"
-      >
-        VISA
-      </text>
-    </svg>
-  );
-}
-
-function MastercardIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 38 24" className={className} aria-hidden="true">
-      <circle cx="14" cy="12" r="10" fill="#EB001B" />
-      <circle cx="24" cy="12" r="10" fill="#F79E1B" />
-      <path d="M19 5.3a10 10 0 0 1 0 13.4A10 10 0 0 1 19 5.3z" fill="#FF5F00" />
-    </svg>
   );
 }

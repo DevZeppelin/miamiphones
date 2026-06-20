@@ -1,12 +1,8 @@
 import type { Product } from "@/lib/types";
 import { whatsappProductLink } from "@/lib/whatsapp";
 
-export type CardType = "local" | "visa";
-
-const RECARGOS = {
-  local: { c3: null,  c6: 0.25, c12: null },
-  visa:  { c3: 0.35, c6: 0.50, c12: 0.90 },
-} satisfies Record<CardType, { c3: number | null; c6: number; c12: number | null }>;
+const VISA = { c3: 0.35, c6: 0.5, c12: 0.9 };
+const LOCAL = { c6: 0.25 };
 
 const arsFmt = new Intl.NumberFormat("es-AR", {
   style: "currency",
@@ -41,25 +37,17 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 export default function ProductCard({
   product,
   view,
-  cardType,
 }: {
   product: Product;
   view: "grid" | "list";
-  cardType: CardType;
 }) {
-  const r = RECARGOS[cardType];
-  const cuota3 =
-    product.precioArs != null && r.c3 != null
-      ? Math.ceil((product.precioArs * (1 + r.c3)) / 3)
-      : null;
-  const cuota6 =
-    product.precioArs != null
-      ? Math.ceil((product.precioArs * (1 + r.c6)) / 6)
-      : null;
-  const cuota12 =
-    product.precioArs != null && r.c12 != null
-      ? Math.ceil((product.precioArs * (1 + r.c12)) / 12)
-      : null;
+  const ars = product.precioArs;
+  const visaCuota3 = ars != null ? Math.ceil((ars * (1 + VISA.c3)) / 3) : null;
+  const visaCuota6 = ars != null ? Math.ceil((ars * (1 + VISA.c6)) / 6) : null;
+  const visaCuota12 =
+    ars != null ? Math.ceil((ars * (1 + VISA.c12)) / 12) : null;
+  const localCuota6 =
+    ars != null ? Math.ceil((ars * (1 + LOCAL.c6)) / 6) : null;
 
   if (view === "list") {
     return (
@@ -138,11 +126,20 @@ export default function ProductCard({
           )}
         </div>
 
-        {(cuota6 != null || cuota12 != null) && (
-          <div className="mt-2 space-y-0.2 text-sm text-zinc-400">
-            {cuota3 != null && <p>3 cuotas de {arsFmt.format(cuota3)}</p>}
-            {cuota6 != null && <p>6 cuotas de {arsFmt.format(cuota6)}</p>}
-            {cuota12 != null && <p>12 cuotas de {arsFmt.format(cuota12)}</p>}
+        {ars != null && (
+          <div className="mt-3 grid grid-cols-2 gap-x-3 rounded-lg bg-zinc-50 px-3 py-2 text-xs">
+            <div>
+              <p className="mb-1 font-medium text-zinc-500">
+                Visa / Mastercard
+              </p>
+              <p className="text-zinc-400">3 x {arsFmt.format(visaCuota3!)}</p>
+              <p className="text-zinc-400">6 x {arsFmt.format(visaCuota6!)}</p>
+              <p className="text-zinc-400">12x {arsFmt.format(visaCuota12!)}</p>
+            </div>
+            <div className="border-l border-zinc-200 pl-3">
+              <p className="mb-1 font-medium text-zinc-500">Locales</p>
+              <p className="text-zinc-400">6 x {arsFmt.format(localCuota6!)}</p>
+            </div>
           </div>
         )}
       </div>
