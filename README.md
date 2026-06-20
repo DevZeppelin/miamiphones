@@ -1,3 +1,13 @@
+# DATA
+
+instagram: miamiphones_ar
+
+Tu amigo, el que sabe de celulares 📱
+📍|Oficina en Morteros
+🇺🇸|Importadores directos
+📱|Sellados y usados premium
+🔃|Plan canje
+
 # Miami Phones
 
 Catálogo simple de iPhone (solo texto, sin fotos) pensado para conectarse con **Airtable**.
@@ -29,13 +39,13 @@ Abrí http://localhost:3000
 
 1. Creá una base con una tabla (por defecto llamada **`Productos`**) con estas columnas:
 
-   | Columna       | Tipo          | Ejemplo                  | Obligatoria |
-   | ------------- | ------------- | ------------------------ | ----------- |
-   | `Descripcion` | Texto         | iPhone 13 128GB          | Sí          |
-   | `Color`       | Texto         | Azul                     | No          |
-   | `PrecioARS`   | Número        | 540000                   | No          |
-   | `PrecioUSD`   | Número        | 430                      | No          |
-   | `Estado`      | Selección     | Oferta / Sellado / Usado | No          |
+   | Columna       | Tipo      | Ejemplo                  | Obligatoria |
+   | ------------- | --------- | ------------------------ | ----------- |
+   | `Descripcion` | Texto     | iPhone 13 128GB          | Sí          |
+   | `Color`       | Texto     | Azul                     | No          |
+   | `PrecioARS`   | Número    | 540000                   | No          |
+   | `PrecioUSD`   | Número    | 430                      | No          |
+   | `Estado`      | Selección | Oferta / Sellado / Usado | No          |
 
    Las cuotas (3 y 6) se calculan solas a partir de `PrecioARS`, no hace falta cargarlas.
    El filtro de arriba usa los valores de `Estado` que existan en la tabla.

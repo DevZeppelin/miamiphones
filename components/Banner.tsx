@@ -3,16 +3,16 @@ import { whatsappGeneralLink } from '@/lib/whatsapp'
 export default function Banner() {
   return (
     <section className="mx-auto mt-5 max-w-5xl px-4">
-      <div className="flex flex-col items-start justify-between gap-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 px-6 py-5 text-white sm:flex-row sm:items-center">
+      <div className="flex flex-col items-start justify-between gap-4 rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 px-6 py-5 text-white sm:flex-row sm:items-center">
         <div>
           <p className="text-lg font-semibold">iPhone usados</p>
-          <p className="text-sm text-emerald-50">Precios accesibles con garantía</p>
+          <p className="text-sm text-brand-50">Precios accesibles con garantía</p>
         </div>
         <a
           href={whatsappGeneralLink()}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-emerald-700 transition-colors hover:bg-emerald-50"
+          className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-brand-700 transition-colors hover:bg-brand-50"
         >
           <WhatsAppIcon className="h-4 w-4" />
           Consulte ahora

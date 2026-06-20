@@ -10,10 +10,16 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-brand-50: #ffe4f3;
+  --color-brand-100: #ffc2e4;
+  --color-brand-600: #ff0080;
+  --color-brand-700: #cc0066;
+  --color-site-dark: #1a1a1a;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  scrollbar-gutter: stable;
 }

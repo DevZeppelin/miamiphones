@@ -12,7 +12,6 @@ export default function Catalog({ products }: { products: Product[] }) {
   const [view, setView] = useState<View>('grid')
   const [estado, setEstado] = useState<string>(TODOS)
 
-  // Filtros disponibles: derivados de los estados que realmente existen en los datos.
   const estados = useMemo(() => {
     const set = new Set<string>()
     for (const p of products) {
@@ -35,7 +34,7 @@ export default function Catalog({ products }: { products: Product[] }) {
   }, [products, query, estado])
 
   return (
-    <section className="mx-auto mt-6 max-w-5xl px-4 pb-16">
+    <section className="mx-auto mt-6 w-full max-w-5xl px-4 pb-16">
       {/* Buscador + toggle de vista */}
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
@@ -55,7 +54,7 @@ export default function Catalog({ products }: { products: Product[] }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar modelo, color..."
-            className="w-full rounded-lg border border-zinc-300 bg-white py-2 pl-9 pr-3 text-sm text-zinc-900 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+            className="w-full rounded-lg border border-zinc-300 bg-white py-2 pl-9 pr-3 text-sm text-zinc-900 outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-600"
           />
         </div>
 
@@ -86,7 +85,7 @@ export default function Catalog({ products }: { products: Product[] }) {
             onClick={() => setEstado(e)}
             className={`rounded-full border px-3 py-1 text-sm transition-colors ${
               estado === e
-                ? 'border-emerald-600 bg-emerald-600 text-white'
+                ? 'border-brand-600 bg-brand-600 text-white'
                 : 'border-zinc-300 bg-white text-zinc-700 hover:border-zinc-400'
             }`}
           >
@@ -95,15 +94,15 @@ export default function Catalog({ products }: { products: Product[] }) {
         ))}
       </div>
 
-      {/* Catalogo */}
+      {/* Catálogo */}
       {filtered.length === 0 ? (
         <p className="mt-10 text-center text-sm text-zinc-500">No se encontraron productos.</p>
       ) : (
         <div
           className={
             view === 'grid'
-              ? 'mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'
-              : 'mt-5 flex flex-col gap-3'
+              ? 'mt-5 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'
+              : 'mt-5 flex w-full flex-col gap-2'
           }
         >
           {filtered.map((p) => (
@@ -132,7 +131,7 @@ function ViewButton({
       aria-label={label}
       aria-pressed={active}
       className={`rounded-md p-1.5 transition-colors ${
-        active ? 'bg-emerald-600 text-white' : 'text-zinc-500 hover:text-zinc-800'
+        active ? 'bg-brand-600 text-white' : 'text-zinc-500 hover:text-zinc-800'
       }`}
     >
       {children}
