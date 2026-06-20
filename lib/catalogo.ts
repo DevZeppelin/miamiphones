@@ -1,30 +1,90 @@
-export type Producto = {
-  id: string;
-  nombre: string;
-  descripcion: string;
-  categoria: string;
-  precio: string;
+import type { Product } from "./types";
+
+// Fila tal como la devuelve el Apps Script de Google Sheets.
+type SheetRow = {
+  id?: string | number;
+  descripcion?: string;
+  color?: string;
+  precioARS?: string | number;
+  precioUSD?: string | number;
+  estado?: string;
 };
 
-export async function obtenerProductos(): Promise<Producto[]> {
+function toNumber(value: string | number | undefined): number | null {
+  if (value == null || value === "") return null;
+  const n =
+    typeof value === "number"
+      ? value
+      : Number(String(value).replace(/[^0-9.]/g, ""));
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+const SAMPLE_PRODUCTS: Product[] = [
+  {
+    id: "1",
+    descripcion: "iPhone 13 128GB",
+    color: "Azul",
+    precioArs: 540000,
+    precioUsd: 430,
+    estado: "Usado",
+  },
+  {
+    id: "2",
+    descripcion: "iPhone 13 128GB",
+    color: "Blanco",
+    precioArs: 620000,
+    precioUsd: 495,
+    estado: "Sellado",
+  },
+  {
+    id: "3",
+    descripcion: "iPhone 13 Pro 256GB",
+    color: "Grafito",
+    precioArs: 790000,
+    precioUsd: 630,
+    estado: "Oferta",
+  },
+  {
+    id: "5",
+    descripcion: "iPhone 14 Plus 128GB",
+    color: "Violeta",
+    precioArs: 890000,
+    precioUsd: 710,
+    estado: "Sellado",
+  },
+];
+
+export async function getProducts(): Promise<Product[]> {
   const url = process.env.GOOGLE_SHEETS_CATALOG_URL;
 
-  if (!url) {
-    throw new Error("No está configurada GOOGLE_SHEETS_CATALOG_URL");
+  if (!url) return SAMPLE_PRODUCTS;
+
+  try {
+    const res = await fetch(url, { next: { revalidate: 60 } });
+
+    if (!res.ok) {
+      console.error(`[catalogo] respuesta ${res.status}`);
+      return SAMPLE_PRODUCTS;
+    }
+
+    const rows = (await res.json()) as SheetRow[];
+
+    const products = rows
+      .filter((r) => r.descripcion?.trim())
+      .map(
+        (r, i): Product => ({
+          id: r.id != null ? String(r.id) : String(i + 1),
+          descripcion: r.descripcion ?? "",
+          color: r.color ?? "",
+          precioArs: toNumber(r.precioARS),
+          precioUsd: toNumber(r.precioUSD),
+          estado: r.estado ?? "",
+        }),
+      );
+
+    return products.length > 0 ? products : SAMPLE_PRODUCTS;
+  } catch (err) {
+    console.error("[catalogo] error:", err);
+    return SAMPLE_PRODUCTS;
   }
-
-  const respuesta = await fetch(url, {
-    next: {
-      // La web revisa cambios cada 60 segundos.
-      revalidate: 60,
-    },
-  });
-
-  if (!respuesta.ok) {
-    throw new Error(`No se pudo obtener el catálogo: ${respuesta.status}`);
-  }
-
-  const productos = (await respuesta.json()) as Producto[];
-
-  return productos.filter((producto) => producto.id && producto.nombre);
 }
