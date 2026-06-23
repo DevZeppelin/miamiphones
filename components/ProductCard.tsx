@@ -5,13 +5,11 @@ const VISA = { c3: 0.35, c6: 0.5, c12: 0.9 };
 const LOCAL = { c6: 0.25 };
 
 const arsFmt = new Intl.NumberFormat("es-AR", {
-  style: "currency",
-  currency: "ARS",
+  style: "decimal",
   maximumFractionDigits: 0,
 });
 const usdFmt = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
+  style: "decimal",
   maximumFractionDigits: 0,
 });
 
@@ -66,19 +64,28 @@ export default function ProductCard({
             )}
           </div>
           {product.color && (
-            <p className="text-xs text-zinc-400">{product.color}</p>
+            <div className="mt-0.5 flex flex-wrap gap-1">
+              {product.color.split(",").map((c) => (
+                <span
+                  key={c.trim()}
+                  className="capitalize rounded-md bg-zinc-100 px-1.5 py-0.5 text-xs text-zinc-600"
+                >
+                  {c.trim()}
+                </span>
+              ))}
+            </div>
           )}
         </div>
 
         <div className="shrink-0 text-right">
           {product.precioArs != null && (
             <p className="text-sm font-bold text-zinc-900">
-              {arsFmt.format(product.precioArs)}
+              ARS {arsFmt.format(product.precioArs)}
             </p>
           )}
           {product.precioUsd != null && (
-            <p className="text-xs text-zinc-500">
-              USD {usdFmt.format(Math.ceil(product.precioUsd)).replace("$", "")}
+            <p className="text-xs text-zinc-400">
+              USD {usdFmt.format(Math.ceil(product.precioUsd))}
             </p>
           )}
         </div>
@@ -110,18 +117,27 @@ export default function ProductCard({
           )}
         </div>
         {product.color && (
-          <p className="mt-0.5 text-sm text-zinc-500">Color: {product.color}</p>
+          <div className="mt-1 flex flex-wrap gap-1">
+            {product.color.split(",").map((c) => (
+              <span
+                key={c.trim()}
+                className="capitalize rounded-md bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600"
+              >
+                {c.trim()}
+              </span>
+            ))}
+          </div>
         )}
 
-        <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <div className="mt-3 flex flex-col gap-0.5">
           {product.precioArs != null && (
             <span className="text-xl font-bold text-zinc-900">
-              {arsFmt.format(product.precioArs)}
+              ARS {arsFmt.format(product.precioArs)}
             </span>
           )}
           {product.precioUsd != null && (
-            <span className="text-sm font-medium text-zinc-500">
-              USD {usdFmt.format(Math.ceil(product.precioUsd)).replace("$", "")}
+            <span className="text-base font-medium text-zinc-400">
+              USD {usdFmt.format(Math.ceil(product.precioUsd))}
             </span>
           )}
         </div>
