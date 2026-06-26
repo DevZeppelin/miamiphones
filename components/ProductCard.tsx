@@ -164,7 +164,7 @@ export default function ProductCard({
         href={whatsappProductLink(product)}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+        className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
       >
         <WhatsAppIcon className="h-4 w-4" />
         Pedir por WhatsApp
