@@ -153,7 +153,7 @@ export default function ProductCard({
               <p className="text-zinc-400">12x {arsFmt.format(visaCuota12!)}</p>
             </div>
             <div className="border-l border-zinc-200 pl-3">
-              <p className="mb-1 font-medium text-zinc-500">Locales</p>
+              <p className="mb-1 font-medium text-zinc-500">Tarj. locales</p>
               <p className="text-zinc-400">6 x {arsFmt.format(localCuota6!)}</p>
             </div>
           </div>
