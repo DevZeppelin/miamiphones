@@ -144,16 +144,16 @@ export default function ProductCard({
 
         {ars != null && (
           <div className="mt-3 grid grid-cols-2 gap-x-3 rounded-lg bg-zinc-50 px-3 py-2 text-xs">
-            <div>
+            {/* <div>
               <p className="mb-1 font-medium text-zinc-500">
                 Visa / Mastercard
               </p>
               <p className="text-zinc-400">3 x {arsFmt.format(visaCuota3!)}</p>
               <p className="text-zinc-400">6 x {arsFmt.format(visaCuota6!)}</p>
               <p className="text-zinc-400">12x {arsFmt.format(visaCuota12!)}</p>
-            </div>
+            </div> */}
             <div className="border-l border-zinc-200 pl-3">
-              <p className="mb-1 font-medium text-zinc-500">Tarj. locales</p>
+              <p className="mb-1 font-medium text-zinc-500">Tarjetas locales</p>
               <p className="text-zinc-400">6 x {arsFmt.format(localCuota6!)}</p>
             </div>
           </div>
